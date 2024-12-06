@@ -1,0 +1,67 @@
+﻿@model List<POGPORTAL.Repositories.MenuRepository>
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<main>
+    <div class="app-main__outer" hidden>
+        <div class="app-main__inner">
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-wallet icon-gradient bg-plum-plate">
+                            </i>
+                        </div>
+                        <div>
+                            @Html.DisplayFor(d => d.Distinct().FirstOrDefault().ModuleNameParent)
+                            <div class="page-title-subheading">
+                                @*Highly configurable boxes best used for showing numbers in an user friendly way.*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="app-wrapper-footer">
+            <div class="app-footer">
+                <div class="app-footer__inner">
+                    <div class="app-footer-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a href="javascript:void(0);" class="nav-link" hidden>
+                                    Footer Link 1
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:void(0);" class="nav-link" hidden>
+                                    Footer Link 2
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="app-footer-right">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a href="javascript:void(0);" class="nav-link" hidden>
+                                    Footer Link 3
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:void(0);" class="nav-link" hidden>
+                                    <div class="badge badge-success mr-1 ml-0">
+                                        <small>NEW</small>
+                                    </div>
+                                    Footer Link 4
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>

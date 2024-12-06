@@ -1,0 +1,112 @@
+﻿@model List<POGPORTAL.Repositories.MenuRepository>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Login - Performa Optima Group</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/main.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        <div class="row">
+            <div class="main-card mb-8 card">
+                <div class="card-body">
+                    <h5 class="card-title">Controls Types</h5>
+
+                    <div class="col-md-6 mb-2">
+                        <label for="validationCustom01">Username <label class="text-red"> *</label>
+                        <input type="text" class="form-control" id="username" placeholder="Username" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <label for="validationCustom01">Password <label class="text-red"> *</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mb-2">
+                        <label for="Comp" class="">Choose Company <label class="text-red"> *</label></label>
+                        @Html.DropDownList("Comp", null, new { @class = "form-control select2" })
+                    </div>
+
+
+                    <button type="submit" id="btnSubmit" class="mt-1 btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
+    @Scripts.Render("~/Content/assets/scripts/main.js")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+    <style>
+        .text-red {
+            color: #dd4b39 !important
+        }
+    </style>
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+            toastr.options.timeOut = 2000;
+        });
+
+        $("#btnSubmit").click(function (a) {
+
+            if ($("#username").val() == "") {
+                toastr.info('Username required!');
+                return;
+            }
+            else if ($("#password").val() == "") {
+                toastr.info('Password required!');
+                return;
+            }
+            else if ($("#Comp option:selected").val() == "") {
+                toastr.info('Company required!');
+                return;
+            }
+
+              $.ajax({
+                  url: "@(Url.Action("ProcessLogin"))",
+                  data: { username: $("#username").val(), password: $("#password").val(), companycode: $("#Comp option:selected").val() },
+                  cache: false,
+                  type: "POST",
+                  success: function (data) {
+                      if (data.pl.IsLogon) {
+                          toastr.success('Hi, Welcome ' + data.pl.SaytoUser);
+                          setTimeout(function () {
+                              window.location.assign("@Url.Action("Dashboard", "Home")");
+                          }, 2500);
+                      } else {
+                          toastr.info('Error ' + data.pl.errMsg);
+                      }
+                  },
+                  error: function (err) {
+                      toastr.info(err.responseText);
+
+                  }
+              });
+
+        });
+
+    </script>
+</body>
+</html>

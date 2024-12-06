@@ -1,0 +1,69 @@
+﻿@model List<POGPORTAL.Repositories.MenuRepository>
+
+<main>
+    <div class="app-main__outer">
+        <div class="app-main__inner">
+            <div class="app-page-title">
+                <div class="page-title-wrapper">
+                    <div class="page-title-heading">
+                        <div class="page-title-icon">
+                            <i class="pe-7s-wallet icon-gradient bg-plum-plate">
+                            </i>
+                        </div>
+                        <div>
+                            @Html.Display("ModuleNameParent2")
+                            <div class="page-title-subheading">
+                                @*Highly configurable boxes best used for showing numbers in an user friendly way.*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="row">
+                    @foreach (var item in Model.GroupBy(g => g.ModuleNameParent).ToArray()[1])
+                    {
+                        <div class="col-lg-6 col-xl-4">
+                            <div class="card mb-3 widget-content">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left">
+                                        <div class="widget-heading">@Html.DisplayFor(d => item.ModuleName)</div>
+                                        <div class="widget-subheading">@Html.DisplayFor(d => item.CompanyName)</div>
+                                    </div>
+                                    <div class="widget-content-right">
+                                        <div class="widget-numbers text-success"><span>@Html.DisplayFor(d => item.OrderdNumber)</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="divider mt-0" style="margin-bottom: 30px;"></div>
+            </div>
+        </div>
+        <div class="app-wrapper-footer">
+            <div class="app-footer">
+                <div class="app-footer__inner">
+                    <div class="app-footer-left">
+                        <ul class="nav">
+                            <li class="nav-item">
+                            </li>
+                            <li class="nav-item">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="app-footer-right">
+                        <ul class="nav">
+                            <li class="nav-item">
+                            </li>
+                            <li class="nav-item">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>
