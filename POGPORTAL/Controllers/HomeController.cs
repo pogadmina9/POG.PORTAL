@@ -153,6 +153,7 @@ namespace POGPORTAL.Controllers
             var ShowMenu = (List<MenuRepository>)Session["NavContentMenu"];
             ViewBag.CompanyName = ShowMenu.Select(s => s.CompanyName).Distinct();
             ViewBag.GroupName = ShowMenu.Select(s => s.GroupName).Distinct();
+            ViewBag.filelogocompany = Convert.ToString("logo-"+ ShowMenu.Select(s => s.CompanyCode).Distinct().FirstOrDefault().ToLower() + ".png");
         }
 
         public async Task<ActionResult> Dashboard()

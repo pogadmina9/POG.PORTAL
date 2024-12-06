@@ -177,9 +177,14 @@
     <Content Include="Content\assets\images\avatars\5.jpg" />
     <Content Include="Content\assets\images\avatars\8.jpg" />
     <Content Include="Content\assets\images\avatars\9.jpg" />
-    <Content Include="Content\assets\images\logo-inverse-old.png" />
-    <Content Include="Content\assets\images\logo-old.png" />
+    <Content Include="Content\assets\images\logo-ism.png" />
+    <Content Include="Content\assets\images\logo-pok.png" />
+    <Content Include="Content\assets\images\logo-pos.png" />
+    <Content Include="Content\assets\images\logo-ppe.png" />
+    <Content Include="Content\assets\images\logo-pti.png" />
+    <Content Include="Content\assets\images\logo-sgn.png" />
     <Content Include="Content\assets\images\logo-pog.png" />
+    <Content Include="Content\assets\images\logo-txn.png" />
     <Content Include="Content\assets\scripts\main.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />

@@ -18,7 +18,8 @@
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div class="app-header header-shadow">
             <div class="app-header__logo">
-                <div class="logo-src"></div>
+                <div class="logo-url"></div>
+                @*<img class="logo-url-img" src="~/Content/assets/images/@Html.Display("filelogocompany")" />*@
                 <div class="header__pane ml-auto">
                     <div>
                         <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -191,11 +192,25 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
+<style>
+    .logo-url-img {
+        height: 100px;
+        width: 200px;
+        padding: 20px 40px 20px 40px;
+    }
+    .logo-url {
+        background: url(/Content/assets/images/@Html.Display("filelogocompany") );
+        background-repeat: no-repeat;
+        height: 10px;
+        width: 140px;
+        padding: 40px 20px 20px 40px;
+        background-size: cover;
+    }
+</style>
 <script language="javascript" type="text/javascript">
     $(document).ready(function () {
-
-        });
+        
+    });
 
     $("#btnLogout").click(function () {
 
