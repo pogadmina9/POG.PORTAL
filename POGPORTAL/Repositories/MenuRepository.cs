@@ -14,10 +14,14 @@ namespace POGPORTAL.Repositories
         public string CompanyName { get; set; }
         public string ModuleNameParent { get; set; }
         public string ModuleName { get; set; }
+        public string ModuleDescription { get; set; }
         public string MenuCode { get; set; }
         public string Path { get; set; }
         public int? OrderdNumber { get; set; }
         public string InitialModuleName { get; set; }
+        public DateTime? BeginActiveDate { get; set; }
+        public DateTime? EndActiveDate { get; set; }
+        public bool? IsHide { get; set; }
     }
 
 

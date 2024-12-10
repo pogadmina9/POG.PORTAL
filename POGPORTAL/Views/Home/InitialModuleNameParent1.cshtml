@@ -1,6 +1,5 @@
 ﻿@model List<POGPORTAL.Repositories.MenuRepository>
 
-<main>
     <div class="app-main__outer">
         <div class="app-main__inner">
             <div class="app-page-title">
@@ -76,18 +75,20 @@
                     {
                         <div class="col-lg-6 col-xl-4">
                             <div class="card mb-3 widget-content">
-                                <a href="javascript:void(0);" class="nav-link">
-                                    
                                 <div class="widget-content-wrapper">
+                                    <a href="http://192.168.10.3:8088/sellerDevelop/redirectlogin" target="_blank" class="nav-link">
                                     <div class="widget-content-left">
                                         <div class="widget-heading">@Html.DisplayFor(d => item.ModuleName)</div>
-                                        <div class="widget-subheading">@Html.DisplayFor(d => item.CompanyName)</div>
+                                        <div class="widget-subheading">@Html.DisplayFor(d => item.ModuleDescription)</div>
+                                    </div>
+                                    </a>
+                                    <div class="widget-content-left">
+
                                     </div>
                                     <div class="widget-content-right">
                                         <div class="widget-numbers text-success"><span>@Html.DisplayFor(d => item.OrderdNumber)</span></div>
                                     </div>
                                 </div>
-                                </a>
                             </div>
                         </div>
                     }
@@ -135,4 +136,3 @@
     </div>
 
 
-</main>

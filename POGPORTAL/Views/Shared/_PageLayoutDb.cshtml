@@ -19,7 +19,6 @@
         <div class="app-header header-shadow">
             <div class="app-header__logo">
                 <div class="logo-url"></div>
-                @*<img class="logo-url-img" src="~/Content/assets/images/@Html.Display("filelogocompany")" />*@
                 <div class="header__pane ml-auto">
                     <div>
                         <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -193,11 +192,20 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 <style>
-    .logo-url-img {
-        height: 100px;
-        width: 200px;
-        padding: 20px 40px 20px 40px;
+    @*.app-sidebar.sidebar-text-light .app-header__logo .logo-src .logo-url {
+        background: url(/Content/assets/images/@Html.Display("filelogocompany") );
     }
+    .app-header.header-text-dark .app-header__logo .logo-src .logo-url {
+        background: url(/Content/assets/images/@Html.Display("filelogocompany") );
+    }
+    .app-header.header-text-light .app-header__logo .logo-src .logo-url {
+        background: url(/Content/assets/images/@Html.Display("filelogocompany") );
+    }
+    .app-header__logo .logo-src .logo-url {
+        height: 23px;
+        width: 97px;
+        background: url(/Content/assets/images/ @Html.Display("filelogocompany") );
+    }*@
     .logo-url {
         background: url(/Content/assets/images/@Html.Display("filelogocompany") );
         background-repeat: no-repeat;

@@ -14,13 +14,8 @@ namespace POGPORTAL.Controllers
 {
     public class HomeController : Controller
     {
-        private Entities db;
+        private DbContextNew db;
         private string sql;
-
-        //public HomeController()
-        //{
-        //    db.Database.CommandTimeout = 10;
-        //}
 
         public ActionResult Index()
         {
@@ -32,7 +27,7 @@ namespace POGPORTAL.Controllers
         {
             List<MenuRepository> ShowComp = new List<MenuRepository>();
 
-            using (Entities ctx = new Entities())
+            using (DbContextNew ctx = new DbContextNew())
             {
                 ShowComp.Add(new MenuRepository { CompanyName = "-", CompanyCode = null, OrderdNumber = 0 });
 
@@ -57,12 +52,30 @@ namespace POGPORTAL.Controllers
         public JsonResult ProcessLogin(string username, string password, string companycode)
         {
             ProcessLogin pl = new ProcessLogin();
+            JsonResult js;
+            try
+            {
+                using (DbContextNew ctx = new DbContextNew())
+                {
+                    var Id = ctx.COMPANies.Where(w=>w.CompanyCode.Equals(companycode)).Select(s=>s.Id).FirstOrDefault();
+                    var Menus = ctx.MENUs.Where(w => Id.Equals((long)w.CompanyId)).Count();
+                    var profile = ctx.PROFILEs.Where(w =>
+                    w.Username.Equals(username) 
+                    && w.Password.Equals(password)
+                    && Id.Equals((long)w.CompanyId)
+                    ).FirstOrDefault();
 
-            pl.IsLogon = true;
-            pl.SaytoUser = "Wakanda";
-            pl.errMsg = "";
+                    pl.IsLogon = Menus > 0 && profile != null ? true : false;
+                    pl.SaytoUser = Menus > 0 && profile != null ? profile.FirstName : "";
+                    pl.errMsg = Menus > 0 ? profile != null ? "" : "User Not Found" : "Company Not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                pl.errMsg = Convert.ToString(ex.Message);
+            }
 
-            JsonResult js = Json(new { pl.errMsg, pl }, JsonRequestBehavior.AllowGet);
+            js = Json(new { pl.errMsg, pl }, JsonRequestBehavior.AllowGet);
             js.MaxJsonLength = Int32.MaxValue;
 
             return js;
@@ -73,9 +86,10 @@ namespace POGPORTAL.Controllers
         public async Task<List<MenuRepository>> NavContentMenu()
         {
             List<MenuRepository> ShowMenu = new List<MenuRepository>();
+            List<MenuRepository> MenuActDate;
             try
             {
-                using (Entities ctx = new Entities())
+                using (DbContextNew ctx = new DbContextNew())
                 {
                     var Id = await ctx.COMPANies.Select(s=>s.Id).ToListAsync();
                     var Comp = await ctx.COMPANies.ToListAsync();
@@ -94,12 +108,18 @@ namespace POGPORTAL.Controllers
                             MenuCode = menu.MenuCode?.Trim(),
                             ModuleNameParent = menu.ModuleNameParent?.Trim(),
                             ModuleName = menu.ModuleName?.Trim(),
+                            ModuleDescription = menu.ModuleDescription?.Trim(),
                             Path = menu.Path?.Trim(),
                             OrderdNumber = menu.OrderedNumber ?? 0,
-                            InitialModuleName = Convert.ToString("InitialModuleNameParent")
+                            InitialModuleName = Convert.ToString("InitialModuleNameParent"),
+                            BeginActiveDate = menu.BeginActiveDate,
+                            EndActiveDate = menu.EndActiveDate,
+                            IsHide = menu.IsHide
                         });
                         i++;
                     }
+
+                    MenuActDate = ShowMenu.Where(w => w.BeginActiveDate <= DateTime.Now.Date && w.EndActiveDate >= DateTime.Now.Date && w.IsHide == false).ToList();
                 }
 
             }
@@ -107,7 +127,7 @@ namespace POGPORTAL.Controllers
             {
                 throw new Exception(ex.Message);
             }
-            return ShowMenu;
+            return MenuActDate;
         }
 
         /**
@@ -117,7 +137,7 @@ namespace POGPORTAL.Controllers
 
             try
             {
-                using (Entities ctx = new Entities())
+                using (DbContextNew ctx = new DbContextNew())
                 {
                     var Id = await ctx.COMPANies.Select(s => s.Id).ToListAsync();
                     var Comp = await ctx.COMPANies.ToListAsync();
@@ -148,9 +168,8 @@ namespace POGPORTAL.Controllers
         **/
 
 
-        public void DefinitionField()
+        public void DefinitionField(List<MenuRepository> ShowMenu)
         {
-            var ShowMenu = (List<MenuRepository>)Session["NavContentMenu"];
             ViewBag.CompanyName = ShowMenu.Select(s => s.CompanyName).Distinct();
             ViewBag.GroupName = ShowMenu.Select(s => s.GroupName).Distinct();
             ViewBag.filelogocompany = Convert.ToString("logo-"+ ShowMenu.Select(s => s.CompanyCode).Distinct().FirstOrDefault().ToLower() + ".png");
@@ -160,7 +179,7 @@ namespace POGPORTAL.Controllers
         {
             var ShowMenu = await NavContentMenu();
             Session["NavContentMenu"] = ShowMenu;
-            DefinitionField();
+            DefinitionField(ShowMenu);
 
             return View(ShowMenu);
         }
@@ -169,11 +188,11 @@ namespace POGPORTAL.Controllers
         public async Task<ActionResult> InitialModuleNameParent1()
         {
             List<MenuRepository> ShowMenu = new List<MenuRepository>();
-
+            if (Session.Count == 0) return RedirectToAction("Login");
             if (Session["NavContentMenu"] == null) ShowMenu = await NavContentMenu();
             else ShowMenu.AddRange((List<MenuRepository>)Session["NavContentMenu"]);
             ViewBag.ModuleNameParent1 = ShowMenu.Select(s => s.ModuleNameParent ??  string.Empty).Distinct().ToArray()[0];
-            DefinitionField();
+            DefinitionField(ShowMenu);
 
             return View(ShowMenu);
         }
@@ -181,22 +200,22 @@ namespace POGPORTAL.Controllers
         public async Task<ActionResult> InitialModuleNameParent2()
         {
             List<MenuRepository> ShowMenu = new List<MenuRepository>();
-
+            if (Session.Count == 0) return RedirectToAction("Login");
             if (Session["NavContentMenu"] == null) ShowMenu = await NavContentMenu();
             else ShowMenu.AddRange((List<MenuRepository>)Session["NavContentMenu"]);
             ViewBag.ModuleNameParent2 = ShowMenu.Select(s => s.ModuleNameParent ?? string.Empty).Distinct().ToArray()[1];
-            DefinitionField();
+            DefinitionField(ShowMenu);
 
             return View(ShowMenu);
         }
         public async Task<ActionResult> InitialModuleNameParent3()
         {
             List<MenuRepository> ShowMenu = new List<MenuRepository>();
-
+            if (Session.Count == 0) return RedirectToAction("Login");
             if (Session["NavContentMenu"] == null) ShowMenu = await NavContentMenu();
             else ShowMenu.AddRange((List<MenuRepository>)Session["NavContentMenu"]);
             ViewBag.ModuleNameParent3 = ShowMenu.Select(s => s.ModuleNameParent ?? string.Empty).Distinct().ToArray()[2];
-            DefinitionField();
+            DefinitionField(ShowMenu);
 
             return View(ShowMenu);
         }
@@ -204,11 +223,11 @@ namespace POGPORTAL.Controllers
         public async Task<ActionResult> InitialModuleNameParent4()
         {
             List<MenuRepository> ShowMenu = new List<MenuRepository>();
-
+            if (Session.Count == 0) return RedirectToAction("Login");
             if (Session["NavContentMenu"] == null) ShowMenu = await NavContentMenu();
             else ShowMenu.AddRange((List<MenuRepository>)Session["NavContentMenu"]);
             ViewBag.ModuleNameParent4 = ShowMenu.Select(s => s.ModuleNameParent ?? string.Empty).Distinct().ToArray()[3];
-            DefinitionField();
+            DefinitionField(ShowMenu);
 
             return View(ShowMenu);
         }

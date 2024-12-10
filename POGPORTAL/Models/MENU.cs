@@ -19,6 +19,7 @@ namespace POGPORTAL.Models
         public string ModuleNameParent { get; set; }
         public string ModuleName { get; set; }
         public string MenuCode { get; set; }
+        public string ModuleDescription { get; set; }
         public string Path { get; set; }
         public string IconPath { get; set; }
         public Nullable<bool> IsHide { get; set; }

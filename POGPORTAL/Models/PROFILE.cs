@@ -21,8 +21,7 @@ namespace POGPORTAL.Models
         public string LastName { get; set; }
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> RolesId { get; set; }
-        public string GroupCode { get; set; }
-        public string CompanyCode { get; set; }
+        public Nullable<long> CompanyId { get; set; }
         public Nullable<System.DateTime> BeginActiveDate { get; set; }
         public Nullable<System.DateTime> EndActiveDate { get; set; }
         public Nullable<System.DateTime> CreateAt { get; set; }

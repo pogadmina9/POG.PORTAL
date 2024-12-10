@@ -12,15 +12,12 @@ namespace POGPORTAL.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ROLE
+    public partial class sysdiagram
     {
-        public long Id { get; set; }
-        public string RoleName { get; set; }
-        public Nullable<long> CompanyId { get; set; }
-        public Nullable<long> MenuId { get; set; }
-        public Nullable<System.DateTime> CreateAt { get; set; }
-        public Nullable<System.DateTime> CreateBy { get; set; }
-        public Nullable<System.DateTime> ModifiedAt { get; set; }
-        public Nullable<System.DateTime> ModifiedBy { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
